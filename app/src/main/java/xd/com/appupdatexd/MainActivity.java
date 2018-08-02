@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                             mBean.setFileName(versionBean.getBuildName()+versionBean.getBuildVersion());
                             mBean.setCONTENT(versionBean.getBuildUpdateDescription());
                             mBean.setTITLE(versionBean.getBuildName());
-                            mBean.setDOWNLOAD_URL("https://raw.githubusercontent.com/jenly1314/AppUpdater/master/app/release/app-release.apk");
+                            mBean.setDOWNLOAD_URL("https://github.com/lsw8569013/AppUpdate/blob/master/app/app-debug.apk");
                             showUPdateDialog(mBean);
                         }
                     }
