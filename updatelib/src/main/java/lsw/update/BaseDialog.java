@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,9 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
     private int res;
     private FlikerProgressBar mFlikerbar;
     private LinearLayout mLl_buttons;
+    private ImageView mIv_top;
+    private View line_top;
+    private View line_bottom;
 
 //    public BaseDialog(Context context, int theme, int res) {
 //        super(context, theme);
@@ -55,6 +59,9 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
     }
 
     private void init() {
+        mIv_top = (ImageView) findViewById(R.id.iv_top);
+        line_top = findViewById(R.id.line_top);
+        line_bottom = findViewById(R.id.line_bottom);
         mLl_buttons = (LinearLayout) findViewById(R.id.ll_buttons);
         mFlikerbar = (FlikerProgressBar) findViewById(R.id.flikerbar);
 
@@ -162,6 +169,38 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
         intent.setDataAndType(uriData, type);
         context.startActivity(intent);
         dismiss();
+    }
+
+    /**
+     * 设置背景色
+     * @param imageResid
+     * @return
+     */
+    public BaseDialog setTopImage(int imageResid){
+        mIv_top.setBackgroundResource(imageResid);
+        return this;
+    }
+
+    /**
+     * 普通dialog
+     * @return
+     */
+    public BaseDialog setCommonDialog(){
+        mIv_top.setVisibility(View.GONE);
+        line_top.setVisibility(View.VISIBLE);
+        line_bottom.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+
+    public BaseDialog setProgressLoadingColor(int color){
+        mFlikerbar.setloadingColor(color);
+        return this;
+    }
+
+    public BaseDialog setStopColor(int color){
+        mFlikerbar.setStopColor(color);
+        return this;
     }
 
 }

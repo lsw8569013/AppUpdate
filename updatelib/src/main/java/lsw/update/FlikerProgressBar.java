@@ -373,5 +373,15 @@ public class FlikerProgressBar extends View implements Runnable{
         float density = getContext().getResources().getDisplayMetrics().density;
         return (int) (dp * density);
     }
+
+    public void setloadingColor(int loadingColor) {
+        this.progressColor = loadingColor;
+        this.loadingColor = loadingColor;
+    }
+
+
+    public void setStopColor(int stopColor) {
+        this.stopColor = stopColor;
+    }
 }
 

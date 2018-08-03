@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                             mBean.setCONTENT(versionBean.getBuildUpdateDescription());
                             mBean.setTITLE(versionBean.getBuildName());
                             mBean.setDOWNLOAD_URL("https://github.com/lsw8569013/AppUpdate/blob/master/app-release.apk");
+                            mBean.setForceUpdate(false);
                             showUPdateDialog(mBean);
                         }
                     }
@@ -118,7 +119,10 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     }
 
     private  void showDialog(){
-        versionDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.custom_dialog_two_layout, mBean);
+        versionDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.custom_dialog_two_layout, mBean)
+//        .setCommonDialog()
+        .setProgressLoadingColor(0xFFFF0000)
+            ;
         versionDialog.show();
     }
 
