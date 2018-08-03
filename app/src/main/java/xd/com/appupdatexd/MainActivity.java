@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 });
     }
 
-    private void showUPdateDialog(UpdateBean bean) {
+        private void showUPdateDialog(UpdateBean bean) {
 
         if(!new PermissionsCheckerUtil(this).lacksPermissionOps(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             ActivityCompat.requestPermissions(this,
