@@ -13,6 +13,8 @@
 
 ### 添加文件权限 
 
+```
+
 public class MyApplication extends Application {
 
 
@@ -28,12 +30,13 @@ public class MyApplication extends Application {
     }
 }
 
-
+//--- 显示升级dialog
   mBean.setFileName(versionBean.getBuildName()+versionBean.getBuildVersion());
   mBean.setCONTENT(versionBean.getBuildUpdateDescription());
   mBean.setTITLE(versionBean.getBuildName());
   mBean.setDOWNLOAD_URL("https://github.com/lsw8569013/AppUpdate/blob/master/app-release.apk");
   showUPdateDialog(mBean);
+
 
 if(!new PermissionsCheckerUtil(this).lacksPermissionOps(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             ActivityCompat.requestPermissions(this,
@@ -43,7 +46,21 @@ if(!new PermissionsCheckerUtil(this).lacksPermissionOps(Manifest.permission.WRIT
             showDialog();
         }
 
+
+@Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 999) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                showDialog();
+            }
+        }
+
+    }
+
 private  void showDialog(){
         versionDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.custom_dialog_two_layout, mBean);
         versionDialog.show();
     }
+
+```
