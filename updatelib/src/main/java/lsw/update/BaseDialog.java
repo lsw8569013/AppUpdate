@@ -55,8 +55,8 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
     }
 
     private void init() {
-        mLl_buttons = findViewById(R.id.ll_buttons);
-        mFlikerbar = findViewById(R.id.flikerbar);
+        mLl_buttons = (LinearLayout) findViewById(R.id.ll_buttons);
+        mFlikerbar = (FlikerProgressBar) findViewById(R.id.flikerbar);
 
         TextView tvTitle = (TextView) findViewById(R.id.tv_title);
         TextView tvMsg = (TextView) findViewById(R.id.tv_msg);
