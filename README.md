@@ -29,8 +29,11 @@ public class MyApplication extends Application {
         }
     }
 }
+```
 
-//--- 显示升级dialog
+### 显示升级dialog
+
+```
   mBean.setFileName(versionBean.getBuildName()+versionBean.getBuildVersion());
   mBean.setCONTENT(versionBean.getBuildUpdateDescription());
   mBean.setTITLE(versionBean.getBuildName());
