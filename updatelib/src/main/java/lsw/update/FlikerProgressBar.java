@@ -321,7 +321,7 @@ public class FlikerProgressBar extends View implements Runnable{
                     flickerLeft = -width;
                 }
                 postInvalidate();
-                Thread.sleep(20);
+                Thread.sleep(200);
             }
         }catch (InterruptedException e) {
             e.printStackTrace();

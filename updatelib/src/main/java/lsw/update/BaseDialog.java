@@ -85,6 +85,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
         setOnDismissListener(this);
         //可以使用之前从service传过来的一些参数比如：title。msg，downloadurl，parambundle
         tvTitle.setText(bean.getTITLE());
+        // 添加 \n 作为换行
         tvMsg.setText(bean.getCONTENT());
         //可以使用之前service传过来的值
 
@@ -113,7 +114,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
                 .get()//
                 .url(bean.getDOWNLOAD_URL())//
                 .build()//
-                .execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), bean.getFileName()) {
+                .execute(new FileCallBack(fileDir.getAbsolutePath(), bean.getFileName()) {
                     @Override
                     public void inProgress(float progress, long total, int id) {
                         super.inProgress(progress, total, id);
@@ -130,6 +131,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
                     public void onResponse(File response, int id) {
                         if(response.isFile() && response.exists()){
                             Log.i("update","download success ---");
+                            Log.e("update","download success ---" + response.getAbsolutePath());
                             //安装 apk
                             installApk(context,response,getContext().getPackageName() + ".fileProvider");
                         }
