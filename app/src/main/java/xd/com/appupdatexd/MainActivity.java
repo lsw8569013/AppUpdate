@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     }
 
     public void updateApp(View view) {
-        Log.e("lsw","升级---");
+        Log.e("lsw", "升级---");
 
         mBean = new UpdateBean();
 
@@ -80,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 .post()
                 .url("https://www.pgyer.com/apiv2/app/view")
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addParams("_api_key","b9ceae317e6a31d762f6da14ed1a19ce")
-                .addParams("appKey","c5f00a829fcb6a8a1c654f7b05cdad7f")
+                .addParams("_api_key", "b9ceae317e6a31d762f6da14ed1a19ce")
+                .addParams("appKey", "c565fbd08c576519a75e5393399c4eb7")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -90,40 +91,41 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
 
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.i("lsw",response);
+                        Log.i("lsw", response);
                         VersionBean.DataBean versionBean = new Gson().fromJson(response, VersionBean.class).getData();
                         //比较版本
-                        if(Integer.parseInt(versionBean.getBuildVersionNo()) > UpdateUtil.getVersionNo(MainActivity.this)){
-                            Log.i("lsw","need update ");
-                            mBean.setFileName(versionBean.getBuildName()+versionBean.getBuildVersion());
+                        if (Integer.parseInt(versionBean.getBuildVersionNo()) > UpdateUtil.getVersionNo(MainActivity.this)) {
+                            Log.i("lsw", "need update ");
+                            mBean.setFileName(versionBean.getBuildName() + versionBean.getBuildVersion());
                             mBean.setCONTENT(versionBean.getBuildUpdateDescription());
                             mBean.setTITLE(versionBean.getBuildName());
-                            mBean.setDOWNLOAD_URL("https://github.com/lsw8569013/AppUpdate/blob/master/app-release.apk");
-                            mBean.setForceUpdate(false);
+                            mBean.setDOWNLOAD_URL("http://2018_10_30.azsoft-kuaila-down.31town.com/2018/Q4/shangheyun.apk?ch=pckuaila&sid=139293&name=%e5%95%86%e5%90%88%e4%ba%91&rec=False&stype=%e5%b8%b8%e7%94%a8%e5%b7%a5%e5%85%b7&tags=%2c%e6%95%88%e7%8e%87%e5%8a%9e%e5%85%ac%2c%e5%95%86%e5%8a%a1%2c%e7%b3%bb%e7%bb%9f%2c&ua=Mozilla%2f5.0+(Windows+NT+10.0%3b+WOW64)+AppleWebKit%2f537.36+(KHTML%2c+like+Gecko)+Chrome%2f70.0.3538.77+Safari%2f537.36");
+                            mBean.setForceUpdate(true);
                             showUPdateDialog(mBean);
                         }
                     }
                 });
     }
 
-        private void showUPdateDialog(UpdateBean bean) {
+    private void showUPdateDialog(UpdateBean bean) {
 
-        if(!new PermissionsCheckerUtil(this).lacksPermissionOps(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+        if (!new PermissionsCheckerUtil(this).lacksPermissionOps(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     999);
-        }else{
+        } else {
             showDialog();
         }
 
     }
 
-    private  void showDialog(){
+    private void showDialog() {
         versionDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.custom_dialog_two_layout, mBean)
 //        .setCommonDialog()
-        .setProgressLoadingColor(0xFFFF0000)
-            ;
-        versionDialog.show();
+                .setProgressLoadingColor(0xFF00FF00)
+        ;
+        versionDialog.
+                show();
     }
 
 
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 999) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showDialog();
             }
         }
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
      */
     @Override
     public void onDismiss(DialogInterface dialogInterface) {
-
+        Log.e("lsw","--- 取消升级");
     }
 
 
