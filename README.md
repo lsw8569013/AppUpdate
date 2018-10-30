@@ -7,7 +7,7 @@
 
 ### maven { url 'https://jitpack.io' }
 
-### implementation 'com.github.lsw8569013:AppUpdate:1.1.1'
+### implementation 'com.github.lsw8569013:AppUpdate:1.1.3'
 
 ## //-----------------------------
 
