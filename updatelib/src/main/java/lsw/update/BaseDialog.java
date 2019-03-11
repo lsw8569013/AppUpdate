@@ -86,14 +86,12 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
         //设置dismiss listener 用于强制更新,dimiss会回调dialogDismiss方法
         setOnDismissListener(this);
         //可以使用之前从service传过来的一些参数比如：title。msg，downloadurl，parambundle
-//        tvTitle.setText(bean.getTITLE());
+        tvTitle.setText(bean.getTITLE());
         // 添加 \n 作为换行
         tvMsg.setText(bean.getCONTENT());
         if(bean.getVersionNO().contains("V") || bean.getVersionNO().contains("v") ){
-            tvTitle.setText("最新版本："+bean.getVersionNO());
             version_no_tv.setText(bean.getVersionNO());
         }else{
-            tvTitle.setText("最新版本：V"+bean.getVersionNO());
             version_no_tv.setText("V"+bean.getVersionNO());
         }
 
