@@ -112,7 +112,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
      * 下载apk
      */
     private void downloadApk() {
-        File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+bean.getTITLE());
+        File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/回收大师");
         if(!fileDir.exists()){
             fileDir.mkdirs();
             Log.e("update",fileDir.getAbsolutePath()+"-- mkdir ok");
