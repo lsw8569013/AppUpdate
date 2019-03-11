@@ -132,7 +132,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Toast.makeText(context,"下载失败！"+e.getMessage(),Toast.LENGTH_SHORT).show();
-                        Log.i("update",e.getMessage());
+                        Log.i("update",e.getMessage()+"  ");
                         mFlikerbar.setVisibility(View.GONE);
                         mLl_buttons.setVisibility(View.VISIBLE);
                     }
