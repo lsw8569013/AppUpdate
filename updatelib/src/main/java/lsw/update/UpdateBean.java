@@ -11,8 +11,7 @@ public class UpdateBean implements Parcelable {
 
     private  String TITLE = "title", CONTENT = "content", DOWNLOAD_URL = "download_url" ,fileName;
     private  boolean forceUpdate = true;
-
-
+    private  String versionNO = "";
 
     public String getTITLE() {
         return TITLE;
@@ -54,6 +53,14 @@ public class UpdateBean implements Parcelable {
         this.fileName = fileName;
     }
 
+    public String getVersionNO() {
+        return versionNO;
+    }
+
+    public void setVersionNO(String versionNO) {
+        this.versionNO = versionNO;
+    }
+
 
     @Override
     public int describeContents() {
@@ -67,6 +74,7 @@ public class UpdateBean implements Parcelable {
         dest.writeString(this.DOWNLOAD_URL);
         dest.writeString(this.fileName);
         dest.writeByte(this.forceUpdate ? (byte) 1 : (byte) 0);
+        dest.writeString(this.versionNO);
     }
 
     public UpdateBean() {
@@ -78,6 +86,7 @@ public class UpdateBean implements Parcelable {
         this.DOWNLOAD_URL = in.readString();
         this.fileName = in.readString();
         this.forceUpdate = in.readByte() != 0;
+        this.versionNO = in.readString();
     }
 
     public static final Creator<UpdateBean> CREATOR = new Creator<UpdateBean>() {

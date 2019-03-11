@@ -66,27 +66,37 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
         mFlikerbar = (FlikerProgressBar) findViewById(R.id.flikerbar);
 
         TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+        TextView version_no_tv = (TextView) findViewById(R.id.version_no_tv);
         TextView tvMsg = (TextView) findViewById(R.id.tv_msg);
         Button btnUpdate = (Button) findViewById(R.id.version_dialog_commit);
-        Button version_dialog_next = (Button) findViewById(R.id.version_dialog_next);
-        if( bean != null && !bean.isForceUpdate()){
-            version_dialog_next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dismiss();
-                }
-            });
+        View version_dialog_next =  findViewById(R.id.version_dialog_next);
+        version_dialog_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+        /*if( bean != null && !bean.isForceUpdate()){
+
             version_dialog_next.setVisibility(View.VISIBLE);
         }else {
-            version_dialog_next.setVisibility(View.GONE);
-        }
+//            version_dialog_next.setVisibility(View.GONE);
+        }*/
 
         //设置dismiss listener 用于强制更新,dimiss会回调dialogDismiss方法
         setOnDismissListener(this);
         //可以使用之前从service传过来的一些参数比如：title。msg，downloadurl，parambundle
-        tvTitle.setText(bean.getTITLE());
+//        tvTitle.setText(bean.getTITLE());
         // 添加 \n 作为换行
         tvMsg.setText(bean.getCONTENT());
+        if(bean.getVersionNO().contains("V") || bean.getVersionNO().contains("v") ){
+            tvTitle.setText("最新版本："+bean.getVersionNO());
+            version_no_tv.setText(bean.getVersionNO());
+        }else{
+            tvTitle.setText("最新版本：V"+bean.getVersionNO());
+            version_no_tv.setText("V"+bean.getVersionNO());
+        }
+
         //可以使用之前service传过来的值
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {

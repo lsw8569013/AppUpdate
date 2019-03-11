@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                             mBean.setFileName(versionBean.getBuildName() + versionBean.getBuildVersion());
                             mBean.setCONTENT(versionBean.getBuildUpdateDescription());
                             mBean.setTITLE(versionBean.getBuildName());
+                            mBean.setVersionNO(versionBean.getBuildVersion());
                             mBean.setDOWNLOAD_URL("http://2018_10_30.azsoft-kuaila-down.31town.com/2018/Q4/shangheyun.apk?ch=pckuaila&sid=139293&name=%e5%95%86%e5%90%88%e4%ba%91&rec=False&stype=%e5%b8%b8%e7%94%a8%e5%b7%a5%e5%85%b7&tags=%2c%e6%95%88%e7%8e%87%e5%8a%9e%e5%85%ac%2c%e5%95%86%e5%8a%a1%2c%e7%b3%bb%e7%bb%9f%2c&ua=Mozilla%2f5.0+(Windows+NT+10.0%3b+WOW64)+AppleWebKit%2f537.36+(KHTML%2c+like+Gecko)+Chrome%2f70.0.3538.77+Safari%2f537.36");
                             mBean.setForceUpdate(true);
                             showUPdateDialog(mBean);
