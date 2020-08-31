@@ -81,11 +81,24 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    public void updateTestApp(View view) {
+        mBean = new UpdateBean();
+        mBean.setFileName("apkname"+ "6.6");
+        mBean.setCONTENT("升级测试");
+        mBean.setTITLE("新版本升级");
+        mBean.setVersionNO("6.6.0");
+        mBean.setDOWNLOAD_URL("http://gdown.baidu.com/data/wisegame/283e9789be54e63c/weixin_1560.apk");
+        mBean.setForceUpdate(true);
+        showUPdateDialog(mBean);
+    }
+
     public void updateApp(View view) {
         Log.e("lsw", "升级---");
 
         mBean = new UpdateBean();
-
+        // 请求示例
         OkHttpUtils
                 .post()
                 .url("https://www.pgyer.com/apiv2/app/view")
@@ -109,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                             mBean.setCONTENT(versionBean.getBuildUpdateDescription());
                             mBean.setTITLE(versionBean.getBuildName());
                             mBean.setVersionNO(versionBean.getBuildVersion());
-                            mBean.setDOWNLOAD_URL("http://gyxz.ukdj3d.cn/a31/rj_zmy1/haimianMBA.apk");
+                            mBean.setDOWNLOAD_URL("http://gdown.baidu.com/data/wisegame/283e9789be54e63c/weixin_1560.apk");
                             mBean.setForceUpdate(true);
                             showUPdateDialog(mBean);
                         }
@@ -132,8 +145,15 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     private void showDialog() {
         versionDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.custom_dialog_two_layout, mBean)
 //        .setCommonDialog()
-                .setProgressLoadingColor(0xFF00FF00)
+                // 修改升级的图片，按钮颜色
+                .setProgressLoadingColor(0xFF0000FF)
+        .setBtnDrawable(R.drawable.selector_btn_blue)
+        .setTopImage(R.drawable.blue_top_bg)
+        .setTopPadding(25)
         ;
+
+        versionDialog.getmIv_new().setVisibility(View.INVISIBLE);
+
         versionDialog.
                 show();
     }

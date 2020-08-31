@@ -6,11 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,17 +28,23 @@ import okhttp3.Call;
 
 /**
  * @author lsw
- * @date  18/8/2
+ * @date 18/8/2
  */
 public class BaseDialog extends Dialog implements DialogInterface.OnDismissListener {
-    private  Context context;
-    private  UpdateBean bean;
+    private Context context;
+    private UpdateBean bean;
     private int res;
     private FlikerProgressBar mFlikerbar;
     private LinearLayout mLl_buttons;
     private ImageView mIv_top;
     private View line_top;
     private View line_bottom;
+    private Button btnUpdate;
+    private ImageView iv_bottom;
+    private TextView tvTitle;
+    private TextView version_no_tv;
+    private TextView tvMsg;
+    private ImageView mIv_new;
 
 //    public BaseDialog(Context context, int theme, int res) {
 //        super(context, theme);
@@ -46,7 +55,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
 //        setCanceledOnTouchOutside(false);
 //    }
 
-    public BaseDialog(Context context, int theme, int res,UpdateBean bean) {
+    public BaseDialog(Context context, int theme, int res, UpdateBean bean) {
         super(context, theme);
         this.context = context;
         //
@@ -60,16 +69,18 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
 
     private void init() {
         mIv_top = (ImageView) findViewById(R.id.iv_top);
+        mIv_new = (ImageView) findViewById(R.id.iv_new);
+        iv_bottom = (ImageView) findViewById(R.id.iv_bottom);
         line_top = findViewById(R.id.line_top);
         line_bottom = findViewById(R.id.line_bottom);
         mLl_buttons = (LinearLayout) findViewById(R.id.ll_buttons);
         mFlikerbar = (FlikerProgressBar) findViewById(R.id.flikerbar);
 
-        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
-        TextView version_no_tv = (TextView) findViewById(R.id.version_no_tv);
-        TextView tvMsg = (TextView) findViewById(R.id.tv_msg);
-        Button btnUpdate = (Button) findViewById(R.id.version_dialog_commit);
-        View version_dialog_next =  findViewById(R.id.version_dialog_next);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        version_no_tv = (TextView) findViewById(R.id.version_no_tv);
+        tvMsg = (TextView) findViewById(R.id.tv_msg);
+        btnUpdate = (Button) findViewById(R.id.version_dialog_commit);
+        View version_dialog_next = findViewById(R.id.version_dialog_next);
         version_dialog_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,10 +100,10 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
         tvTitle.setText(bean.getTITLE());
         // 添加 \n 作为换行
         tvMsg.setText(bean.getCONTENT());
-        if(bean.getVersionNO().contains("V") || bean.getVersionNO().contains("v") ){
+        if (bean.getVersionNO().contains("V") || bean.getVersionNO().contains("v")) {
             version_no_tv.setText(bean.getVersionNO());
-        }else{
-            version_no_tv.setText("V"+bean.getVersionNO());
+        } else {
+            version_no_tv.setText("V" + bean.getVersionNO());
         }
 
         //可以使用之前service传过来的值
@@ -112,10 +123,10 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
      * 下载apk
      */
     private void downloadApk() {
-        File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/回收大师");
-        if(!fileDir.exists()){
+        File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/回收大师");
+        if (!fileDir.exists()) {
             fileDir.mkdirs();
-            Log.e("update",fileDir.getAbsolutePath()+"-- mkdir ok");
+            Log.e("update", fileDir.getAbsolutePath() + "-- mkdir ok");
         }
 
         OkHttpUtils//
@@ -131,19 +142,19 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
 
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        Toast.makeText(context,"下载失败！"+e.getMessage(),Toast.LENGTH_SHORT).show();
-                        Log.i("update",e.getMessage()+"  ");
+                        Toast.makeText(context, "下载失败！", Toast.LENGTH_SHORT).show();
+                        Log.i("update", e.getMessage() + "  ");
                         mFlikerbar.setVisibility(View.GONE);
                         mLl_buttons.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onResponse(File response, int id) {
-                        if(response.isFile() && response.exists()){
-                            Log.i("update","download success ---");
-                            Log.e("update","download success ---" + response.getAbsolutePath());
+                        if (response.isFile() && response.exists()) {
+                            Log.i("update", "download success ---");
+                            Log.e("update", "download success ---" + response.getAbsolutePath());
                             //安装 apk
-                            installApk(context,response,getContext().getPackageName() + ".fileProvider");
+                            installApk(context, response, getContext().getPackageName() + ".fileProvider");
                         }
                     }
                 });
@@ -162,10 +173,11 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
 
     /**
      * 安装apk
+     *
      * @param context
      * @param file
      */
-    public void installApk(Context context,File file,String authority){
+    public void installApk(Context context, File file, String authority) {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -176,7 +188,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
 //            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //            uriData = FileProvider.getUriForFile(context, authority, file);
 //        }else{
-            uriData = Uri.fromFile(file);
+        uriData = Uri.fromFile(file);
 //        }
         intent.setDataAndType(uriData, type);
         context.startActivity(intent);
@@ -184,35 +196,116 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
     }
 
     /**
-     * 设置背景色
+     * 设置上部图片背景色
+     *
      * @param imageResid
      * @return
      */
-    public BaseDialog setTopImage(int imageResid){
+    public BaseDialog setTopImage(int imageResid) {
         mIv_top.setBackgroundResource(imageResid);
         return this;
     }
 
     /**
-     * 普通dialog
+     * 设置底部背景
+     * @param imageResid
      * @return
      */
-    public BaseDialog setCommonDialog(){
+    public BaseDialog setBottomImage(int imageResid) {
+        iv_bottom.setBackgroundResource(imageResid);
+        return this;
+    }
+
+    /**
+     * 普通dialog
+     *
+     * @return
+     */
+    public BaseDialog setCommonDialog() {
         mIv_top.setVisibility(View.GONE);
         line_top.setVisibility(View.VISIBLE);
         line_bottom.setVisibility(View.VISIBLE);
         return this;
     }
 
+    public BaseDialog setBtnDrawable(int backgroundResid) {
+        btnUpdate.setBackgroundResource(backgroundResid);
+        return this;
+    }
 
-    public BaseDialog setProgressLoadingColor(int color){
+
+    public BaseDialog setProgressLoadingColor(int color) {
         mFlikerbar.setloadingColor(color);
         return this;
     }
 
-    public BaseDialog setStopColor(int color){
+    public BaseDialog setStopColor(int color) {
         mFlikerbar.setStopColor(color);
         return this;
     }
 
+    /**
+     * i
+     *
+     * @param i dp值1
+     * @return
+     */
+    public BaseDialog setTopPadding(int i) {
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mIv_top.getLayoutParams();
+        lp.setMargins(0, dpToPx(i), 0, 0);
+        mIv_top.setLayoutParams(lp);
+        return this;
+    }
+
+
+    public int dpToPx(float dp) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
+    }
+
+
+
+
+    public FlikerProgressBar getmFlikerbar() {
+        return mFlikerbar;
+    }
+
+    public LinearLayout getmLl_buttons() {
+        return mLl_buttons;
+    }
+
+    public ImageView getmIv_top() {
+        return mIv_top;
+    }
+
+    public View getLine_top() {
+        return line_top;
+    }
+
+    public View getLine_bottom() {
+        return line_bottom;
+    }
+
+    public Button getBtnUpdate() {
+        return btnUpdate;
+    }
+
+    public ImageView getIv_bottom() {
+        return iv_bottom;
+    }
+
+    public TextView getTvTitle() {
+        return tvTitle;
+    }
+
+    public TextView getVersion_no_tv() {
+        return version_no_tv;
+    }
+
+    public TextView getTvMsg() {
+        return tvMsg;
+    }
+
+    public ImageView getmIv_new() {
+        return mIv_new;
+    }
 }

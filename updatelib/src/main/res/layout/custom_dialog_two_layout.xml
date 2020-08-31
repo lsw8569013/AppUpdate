@@ -137,12 +137,13 @@
                 android:layout_below="@+id/tv_msg"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/version_dialog_next"
                 android:layout_weight="1"
                 android:background="@drawable/xdselector_btn_green"
                 android:padding="6dp"
                 android:text="立即更新"
                 android:textSize="16dp"
+                android:layout_marginBottom="5dp"
+                android:visibility="visible"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
@@ -158,11 +159,13 @@
             app:loadingColor="#40c4ff"
             app:radius="8dp"
             app:stopColor="#1ff297"
+            android:layout_marginBottom="5dp"
             app:textSize="12sp" />
 
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/iv_bottom"
         android:layout_below="@+id/rv_content"
         android:layout_width="300dp"
         android:layout_height="13dp"

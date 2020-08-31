@@ -138,7 +138,7 @@ public class FlikerProgressBar extends View implements Runnable{
         textPaint.setTextSize(textSize);
 
         textRect = new Rect();
-        bgRectf = new RectF(borderWidth, borderWidth, getMeasuredWidth() - borderWidth, getMeasuredHeight() - borderWidth);
+        bgRectf = new RectF(borderWidth, borderWidth, getMeasuredWidth() - borderWidth, getMeasuredHeight() - borderWidth*2);
 
         if(isStop){
             progressColor = stopColor;
