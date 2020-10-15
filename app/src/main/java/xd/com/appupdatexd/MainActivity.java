@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+
+import android.telecom.Call;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -26,7 +28,7 @@ import lsw.update.PermissionsCheckerUtil;
 import lsw.update.UpdateBean;
 import lsw.update.UpdateUtil;
 import lsw.update.VersionBean;
-import okhttp3.Call;
+
 
 
 public class MainActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
@@ -38,8 +40,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         //3、获取屏幕的默认分辨率
         Display display = getWindowManager().getDefaultDisplay();
@@ -49,14 +50,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
 
         Log.e("lsw", "height - "+heigth+ " width-" + width);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
     @Override
@@ -107,8 +101,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 .addParams("appKey", "c565fbd08c576519a75e5393399c4eb7")
                 .build()
                 .execute(new StringCallback() {
+
+
                     @Override
-                    public void onError(Call call, Exception e, int id) {
+                    public void onError(okhttp3.Call call, Exception e, int id) {
+
                     }
 
                     @Override
