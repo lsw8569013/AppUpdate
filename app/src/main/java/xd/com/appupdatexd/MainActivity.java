@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         mBean.setTITLE("新版本升级");
         mBean.setVersionNO("6.6.0");
         mBean.setDOWNLOAD_URL("http://wap.apk.anzhi.com/data5/apk/202101/12/ebe7b9bfb3cb766734a0d1097066ff70_17588800.apk");
-        mBean.setForceUpdate(true);
+        mBean.setForceUpdate(false);
         showUPdateDialog(mBean);
     }
 
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                             mBean.setTITLE(versionBean.getBuildName());
                             mBean.setVersionNO(versionBean.getBuildVersion());
                             mBean.setDOWNLOAD_URL("http://gdown.baidu.com/data/wisegame/283e9789be54e63c/weixin_1560.apk");
-                            mBean.setForceUpdate(true);
+                            mBean.setForceUpdate(false);
                             showUPdateDialog(mBean);
                         }
                     }

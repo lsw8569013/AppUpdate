@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -69,8 +70,6 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
         this.bean = bean;
         init();
         this.res = res;
-        setCanceledOnTouchOutside(false);
-
     }
 
     private void init() {
@@ -93,12 +92,11 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
                 dismiss();
             }
         });
-        /*if( bean != null && !bean.isForceUpdate()){
-
-            version_dialog_next.setVisibility(View.VISIBLE);
+        if( bean != null && !bean.isForceUpdate()){
+            version_dialog_next.setVisibility(View.GONE);
         }else {
-//            version_dialog_next.setVisibility(View.GONE);
-        }*/
+            version_dialog_next.setVisibility(View.VISIBLE);
+        }
 
         //设置dismiss listener 用于强制更新,dimiss会回调dialogDismiss方法
         setOnDismissListener(this);
@@ -178,6 +176,32 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
     public void dismiss() {
         context = null;
         super.dismiss();
+    }
+
+    @Override
+    public void show() {
+        try {
+            Log.i("lsw",bean.isForceUpdate()+" -- ");
+            setCanceledOnTouchOutside(bean.isForceUpdate());
+            if(!bean.isForceUpdate()){
+                // 强制更新 外部点击不了，屏蔽返回键
+                setOnKeyListener(new OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+                            //展示第二个Dialog弹框
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+            }
+
+        }catch (Exception e){
+            setCanceledOnTouchOutside(false);
+        }
+
+        super.show();
     }
 
     /**
