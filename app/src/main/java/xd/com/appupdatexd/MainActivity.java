@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         mBean.setCONTENT("升级测试");
         mBean.setTITLE("新版本升级");
         mBean.setVersionNO("6.6.0");
-        mBean.setDOWNLOAD_URL("http://gdown.baidu.com/data/wisegame/283e9789be54e63c/weixin_1560.apk");
+        mBean.setDOWNLOAD_URL("http://wap.apk.anzhi.com/data5/apk/202101/12/ebe7b9bfb3cb766734a0d1097066ff70_17588800.apk");
         mBean.setForceUpdate(true);
         showUPdateDialog(mBean);
     }
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
 
         if (!new PermissionsCheckerUtil(this).lacksPermissionOps(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
                     999);
         } else {
             showDialog();

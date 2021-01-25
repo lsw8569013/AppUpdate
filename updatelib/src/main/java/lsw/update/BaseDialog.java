@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +24,15 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
 
 import java.io.File;
+import java.util.function.LongUnaryOperator;
 
 import lsw.updatelib.R;
 import okhttp3.Call;
 
 
 /**
+ * 下载的弹窗 包括下载功能
+ *
  * @author lsw
  * @date 18/8/2
  */
@@ -123,7 +129,10 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
      * 下载apk
      */
     private void downloadApk() {
-        File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/回收大师");
+//        File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/回收大师");
+        String path = getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        Log.e("lsw", "10 测试 path = " + path);
+        File fileDir = new File(path);
         if (!fileDir.exists()) {
             fileDir.mkdirs();
             Log.e("update", fileDir.getAbsolutePath() + "-- mkdir ok");
@@ -181,18 +190,36 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+
         Uri uriData = null;
         String type = "application/vnd.android.package-archive";
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            uriData = FileProvider.getUriForFile(context, authority, file);
-//        }else{
-        uriData = Uri.fromFile(file);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            uriData = FileProvider.getUriForFile(context, authority, file);
+        } else {
+            uriData = Uri.fromFile(file);
+        }
         intent.setDataAndType(uriData, type);
         context.startActivity(intent);
+
+
+       /* Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri uri = FileProvider.getUriForFile(context, "com.apk.demo.fileprovider", file);
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        }else{
+            intent.setDataAndType(Uri.fromFile(file),"application/vnd.android.package-archive");
+        }
+        try {
+            context.startActivity(intent);
+        }catch(Exception e){
+            e.printStackTrace();
+        }*/
         dismiss();
+
+
     }
 
     /**
@@ -208,6 +235,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
 
     /**
      * 设置底部背景
+     *
      * @param imageResid
      * @return
      */
@@ -261,8 +289,6 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
     public int dpToPx(float dp) {
         return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
-
-
 
 
     public FlikerProgressBar getmFlikerbar() {
