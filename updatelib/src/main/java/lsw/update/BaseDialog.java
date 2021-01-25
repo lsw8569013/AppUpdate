@@ -161,7 +161,7 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
                             Log.i("update", "download success ---");
                             Log.e("update", "download success ---" + response.getAbsolutePath());
                             //安装 apk
-                            installApk(context, response, getContext().getPackageName() + ".fileProvider");
+                            installApk(context, response, "xd.com.appupdatexd"+ ".fileProvider");
                         }
                     }
                 });
