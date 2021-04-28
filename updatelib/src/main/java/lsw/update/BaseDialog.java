@@ -158,10 +158,12 @@ public class BaseDialog extends Dialog implements DialogInterface.OnDismissListe
                     @Override
                     public void onResponse(File response, int id) {
                         if (response.isFile() && response.exists()) {
-                            Log.i("update", "download success ---");
+
                             Log.e("update", "download success ---" + response.getAbsolutePath());
+                            Log.e("update", "context.getPackageName() ---" + context.getPackageName());
+
                             //安装 apk
-                            installApk(context, response, "xd.com.appupdatexd"+ ".fileProvider");
+                            installApk(context, response, context.getPackageName()+ ".update.fileProvider");
                         }
                     }
                 });
