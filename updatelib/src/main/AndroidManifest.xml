@@ -4,7 +4,7 @@
 
     <provider
         android:name="android.support.v4.content.FileProvider"
-        android:authorities="xd.com.appupdatexd.fileProvider"
+        android:authorities="${applicationId}.update.fileProvider"
         android:exported="false"
         android:grantUriPermissions="true">
         <meta-data
